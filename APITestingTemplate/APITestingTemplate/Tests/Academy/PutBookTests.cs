@@ -48,7 +48,6 @@ namespace APITestingTemplate.Tests.Academy
             updateBookRequest.AvailableFrom = DateTimeOffset.Now;
             updateBookRequest.BookCategoryId = 13;
             updateBookRequest.HasEBook = true;
-            // *hello*
 
             // Call the get API to update given book with above details
             var updateBookResponse = Put<UpdateBookRequest>(updateBookRequest, Resources.UpdateBook);
