@@ -37,6 +37,8 @@ namespace APITestingTemplate.Tests.Academy
             var bookData = _addBookAndCategoryFixture.BookData.BookData;
             var bookId = bookData.First().Id;
 
+            // Create another set of book data we can update to
+
             //var bookCategoryDataUpdate = _addBookAndCategoryFixture.BookData.BookCategoryData;
             //var bookCategoryIdUpdate = bookCategoryData.First().Id;
             //var bookDataUpdate = _addBookAndCategoryFixture.BookData.BookData;
