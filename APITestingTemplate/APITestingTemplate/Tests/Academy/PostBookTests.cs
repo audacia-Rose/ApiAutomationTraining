@@ -92,7 +92,7 @@ namespace APITestingTemplate.Tests.Academy
             addBookRequest.HasEBook = false;
 
             // Call the get API to add the new book to system
-            var addBookResponse = Post<AddBookRequest>(addBookRequest, Resources.AddBook);
+            var addBookResponse = Post<GetBookDtoCommandResult>(addBookRequest, Resources.AddBook);
 
             // Check the status code is 400: bad request
             addBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -105,7 +105,7 @@ namespace APITestingTemplate.Tests.Academy
             var addBookRequest = new AddBookRequest();
 
             // Call the get API to add the new book to system
-            var addBookResponse = Post<AddBookRequest>(addBookRequest, Resources.AddBook);
+            var addBookResponse = Post<GetBookDtoCommandResult>(addBookRequest, Resources.AddBook);
 
             // Check the status code is 400: bad request
             addBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
