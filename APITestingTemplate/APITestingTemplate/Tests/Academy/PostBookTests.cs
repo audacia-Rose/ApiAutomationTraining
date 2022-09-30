@@ -27,7 +27,7 @@ namespace APITestingTemplate.Tests.Academy
             _bookHelper = new BookHelper();
         }
 
-        [Trait("Category", "Books")]
+        [Trait("Category", "Add Books")]
         [Fact]
         public void Scenario_1_As_a_user_I_can_add_a_new_book()
         {
@@ -56,19 +56,22 @@ namespace APITestingTemplate.Tests.Academy
             _bookHelper.DeleteBook(bookId);
         }
 
+        [Trait("Category", "Add Books")]
         [Fact]
         public void Scenario_2_As_a_user_I_cannot_add_a_new_book_with_nullified_title()
         {
-            // Setting up the request body for adding a new book
+            // Create new book category using fixture & capture its ID
+            var bookCategoryData = _addBookCategoryFixture.BookCategoryData;
+            var bookCategoryId = bookCategoryData.Id;
+
+            // Setting up the request body for a new book using our base customisation
             var addBookRequest = SetupWithoutSave<AddBookRequest>();
 
+            // Base customisation sets book category to 1 so we can override this with the book category we've created
+            addBookRequest.BookCategoryId = bookCategoryId;
+
+            // Override the base customisation to set title to null
             addBookRequest.Title = null;
-            addBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
-            addBookRequest.Author = "Avery Monsen, Jory John";
-            addBookRequest.PublishedYear = 2010;
-            addBookRequest.AvailableFrom = DateTimeOffset.Now;
-            addBookRequest.BookCategoryId = 80;
-            addBookRequest.HasEBook = false;
 
             // Call the get API to add the new book to system
             var addBookResponse = Post<GetBookDtoCommandResult>(addBookRequest, Resources.AddBook);
@@ -77,19 +80,14 @@ namespace APITestingTemplate.Tests.Academy
             addBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
-        [Fact]
-        public void Scenario_3_As_a_user_I_cannot_add_a_new_book_with_nullified_book_category()
+        [Trait("Category", "Add Books")]
+        [Fact] public void Scenario_3_As_a_user_I_cannot_add_a_new_book_with_book_category_that_does_not_exist()
         {
             // Setting up the request body for adding a new book
             var addBookRequest = SetupWithoutSave<AddBookRequest>();
 
-            addBookRequest.Title = "All My Friends Are Dead";
-            addBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
-            addBookRequest.Author = "Avery Monsen, Jory John";
-            addBookRequest.PublishedYear = 2010;
-            addBookRequest.AvailableFrom = DateTimeOffset.Now;
-            addBookRequest.BookCategoryId = null;
-            addBookRequest.HasEBook = false;
+            // Override book category with one that doesn't exist
+            addBookRequest.BookCategoryId = 10;
 
             // Call the get API to add the new book to system
             var addBookResponse = Post<GetBookDtoCommandResult>(addBookRequest, Resources.AddBook);
@@ -98,6 +96,7 @@ namespace APITestingTemplate.Tests.Academy
             addBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
+        [Trait("Category", "Add Books")]
         [Fact]
         public void Scenario_4_As_a_user_I_cannot_add_a_new_book_with_no_request_body()
         {
