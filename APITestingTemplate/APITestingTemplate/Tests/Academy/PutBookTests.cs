@@ -37,11 +37,16 @@ namespace APITestingTemplate.Tests.Academy
             var bookData = _addBookAndCategoryFixture.BookData.BookData;
             var bookId = bookData.First().Id;
 
+            //var bookCategoryDataUpdate = _addBookAndCategoryFixture.BookData.BookCategoryData;
+            //var bookCategoryIdUpdate = bookCategoryData.First().Id;
+            //var bookDataUpdate = _addBookAndCategoryFixture.BookData.BookData;
+
             // Setting up the request body for updating a book
             var updateBookRequest = SetupWithoutSave<UpdateBookRequest>();
 
             updateBookRequest.Id = bookId;
             updateBookRequest.Title = "All My Friends Are Dead";
+            //updateBookRequest.Title = bookDataUpdate.First().Title;
             updateBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
             updateBookRequest.Author = "Avery Monsen, Jory John";
             updateBookRequest.PublishedYear = 2022;
@@ -50,10 +55,13 @@ namespace APITestingTemplate.Tests.Academy
             updateBookRequest.HasEBook = true;
 
             // Call the get API to update given book with above details
-            var updateBookResponse = Put<UpdateBookRequest>(updateBookRequest, Resources.UpdateBook);
+            var updateBookResponse = Put<GetBookDtoCommandResult>(updateBookRequest, Resources.UpdateBook);
 
             // Check the status code is ok
             updateBookResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            // Check the book has been updated to given values
+            updateBookResponse.Data.Output.Title.Should().Be("All My Friends Are Dead");
 
         }
     }
