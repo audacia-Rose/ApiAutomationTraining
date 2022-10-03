@@ -40,15 +40,9 @@ namespace APITestingTemplate.Tests.Academy
 
             /* Setting up the request body for updating a book */
             var updateBookRequest = SetupWithoutSave<UpdateBookRequest>();
-
+            
             updateBookRequest.Id = bookId;
-            updateBookRequest.Title = "All My Friends Are Dead";
-            updateBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
-            updateBookRequest.Author = "Avery Monsen, Jory John";
-            updateBookRequest.PublishedYear = 2022;
-            updateBookRequest.AvailableFrom = DateTimeOffset.Now;
-            updateBookRequest.BookCategoryId = 13;
-            updateBookRequest.HasEBook = true;
+            updateBookRequest.Randomise(bookCategoryId);
 
             /* Call the get API to update given book with above details */
             var updateBookResponse = Put<GetBookDtoCommandResult>(updateBookRequest, Resources.UpdateBook);
