@@ -24,7 +24,7 @@ namespace APITestingTemplate.Helpers
             var addBookCategoryRequest = SetupWithoutSave<AddBookCategoryRequest>();
 
             /* Use new instance of Random Class to generate 3-worded book genre name */
-            addBookCategoryRequest.Name = RandomBook.Words(3);
+            addBookCategoryRequest.Name = RandomBook.Word();
             
             /* Send request to add book category with given name */
             var addBookCategoryResponse =

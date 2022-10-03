@@ -9,7 +9,7 @@ using FluentAssertions;
 
 namespace APITestingTemplate.Helpers
 {
-    public class BookHelper : ApiTestsBase, IDisposable
+    public class BookAndCategoryHelper : ApiTestsBase, IDisposable
     {
         /* Allows us to generate new book with random words */
         private Random RandomBook { get; } = new();
@@ -17,7 +17,7 @@ namespace APITestingTemplate.Helpers
         /* Allows us to use methods from BookCategoryHelper class */
         private readonly BookCategoryHelper _bookCategoryHelper;
 
-        public BookHelper()
+        public BookAndCategoryHelper()
         {
             _bookCategoryHelper = new BookCategoryHelper();
         }
@@ -28,12 +28,6 @@ namespace APITestingTemplate.Helpers
             var addBookRequest = SetupWithoutSave<AddBookRequest>();
 
             addBookRequest.BookCategoryId = bookCategoryId;
-            //addBookRequest.Title = RandomBook.Word();
-            //addBookRequest.Description = RandomBook.Sentence();
-            //addBookRequest.Author = $"{RandomBook.Forename()} {RandomBook.Surname()}";
-            //addBookRequest.PublishedYear = 2000;
-            //addBookRequest.AvailableFrom = RandomBook.Birthday();
-            //addBookRequest.HasEBook = true;
 
             // Send the request to add the book
             var addBookResponse =

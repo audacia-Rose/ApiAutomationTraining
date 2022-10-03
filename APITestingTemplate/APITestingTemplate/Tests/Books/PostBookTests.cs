@@ -19,12 +19,12 @@ namespace APITestingTemplate.Tests.Academy
 
         private readonly AddBookCategoryFixture _addBookCategoryFixture;
 
-        private readonly BookHelper _bookHelper;
+        private readonly BookAndCategoryHelper _bookHelper;
 
         public PostBookTests(AddBookCategoryFixture addBookCategoryFixture)
         {
             _addBookCategoryFixture = addBookCategoryFixture;
-            _bookHelper = new BookHelper();
+            _bookHelper = new BookAndCategoryHelper();
         }
 
         [Trait("Category", "Add Books")]
@@ -83,16 +83,16 @@ namespace APITestingTemplate.Tests.Academy
         [Trait("Category", "Add Books")]
         [Fact] public void Scenario_3_As_a_user_I_cannot_add_a_new_book_with_book_category_that_does_not_exist()
         {
-            // Setting up the request body for adding a new book
+            /* Setting up the request body for adding a new book */
             var addBookRequest = SetupWithoutSave<AddBookRequest>();
 
-            // Override book category with one that doesn't exist
+            /* Override book category with one that doesn't exist */
             addBookRequest.BookCategoryId = 10;
 
-            // Call the get API to add the new book to system
+            /* Call the get API to add the new book to system */
             var addBookResponse = Post<GetBookDtoCommandResult>(addBookRequest, Resources.AddBook);
 
-            // Check the status code is 400: bad request
+            /* Check the status code is 400: bad request */
             addBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 

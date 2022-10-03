@@ -30,5 +30,4 @@ namespace APITestingTemplate.DataSetup.Customizations
                 .With(dto => dto.BookCategoryId, () => 1);
         }
     }
-
 }

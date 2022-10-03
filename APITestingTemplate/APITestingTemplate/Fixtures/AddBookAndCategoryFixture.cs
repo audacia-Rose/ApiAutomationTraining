@@ -13,14 +13,14 @@ namespace APITestingTemplate.Fixtures
 
         public AddBookAndCategoryFixture()
         {
-            using var bookHelper = new BookHelper();
+            using var bookHelper = new BookAndCategoryHelper();
 
             BookData = bookHelper.PostBookAndCategory();
         }
 
         public void Dispose()
         {
-            using var bookHelper = new BookHelper();
+            using var bookHelper = new BookAndCategoryHelper();
 
             bookHelper.DeleteBookAndCategory(BookData.BookData.First().Id, BookData.BookCategoryData.First().Id);
         }

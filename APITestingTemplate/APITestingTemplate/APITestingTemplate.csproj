@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Dtos\Generated\" />
+    <Folder Include="Tests\Gridfox\" />
   </ItemGroup>
 
   <ItemGroup>
