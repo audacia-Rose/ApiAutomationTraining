@@ -62,5 +62,34 @@ namespace APITestingTemplate.Tests.Academy
             getBookResponse.Data.Output.Author.Should().Be(updateBookRequest.Author);   
             getBookResponse.Data.Output.PublishedYear.Should().Be(updateBookRequest.PublishedYear);
         }
+
+        [Fact]
+        public void Scenario_2_As_a_user_I_cannot_update_a_book_with_nullified_fields()
+        {
+            // Create a new book category and book to update using the fixtures
+            var bookCategoryData = _addBookAndCategoryFixture.BookData.BookCategoryData;
+            var bookCategoryId = bookCategoryData.First().Id;
+            var bookData = _addBookAndCategoryFixture.BookData.BookData;
+            var bookId = bookData.First().Id;
+
+            // Setting up the request body for updating a book
+            var updateBookRequest = SetupWithoutSave<UpdateBookRequest>();
+
+            updateBookRequest.Id = bookId;
+            updateBookRequest.Title = null;
+            updateBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
+            updateBookRequest.Author = "Avery Monsen, Jory John";
+            updateBookRequest.PublishedYear = null;
+            updateBookRequest.AvailableFrom = DateTimeOffset.Now;
+            updateBookRequest.BookCategoryId = 13;
+            updateBookRequest.HasEBook = true;
+            // *hello*
+
+            // Call the get API to update given book with above details
+            var updateBookResponse = Put<UpdateBookRequest>(updateBookRequest, Resources.UpdateBook);
+
+            // Check the status code is ok
+            updateBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
     }
 }
