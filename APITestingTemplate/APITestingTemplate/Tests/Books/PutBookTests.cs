@@ -75,21 +75,36 @@ namespace APITestingTemplate.Tests.Academy
             // Setting up the request body for updating a book
             var updateBookRequest = SetupWithoutSave<UpdateBookRequest>();
 
+            // Reassign new random values to book data fields
             updateBookRequest.Id = bookId;
+            updateBookRequest.Randomise(bookCategoryId);
+
+            // Reassign some fields to null
             updateBookRequest.Title = null;
-            updateBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
-            updateBookRequest.Author = "Avery Monsen, Jory John";
             updateBookRequest.PublishedYear = null;
-            updateBookRequest.AvailableFrom = DateTimeOffset.Now;
-            updateBookRequest.BookCategoryId = 13;
-            updateBookRequest.HasEBook = true;
-            // *hello*
+
+            //updateBookRequest.Id = bookId;
+            //updateBookRequest.Description = "If you're a dinosaur, all of your friends are dead. If you're a pirate, all of your friends have scurvy. If you're a tree, all of your friends are end tables.";
+            //updateBookRequest.Author = "Avery Monsen, Jory John";
+            //updateBookRequest.AvailableFrom = DateTimeOffset.Now;
+            //updateBookRequest.BookCategoryId = 13;
+            //updateBookRequest.HasEBook = true;
 
             // Call the get API to update given book with above details
             var updateBookResponse = Put<UpdateBookRequest>(updateBookRequest, Resources.UpdateBook);
 
             // Check the status code is ok
             updateBookResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            /* Call the get API to get the book by its ID */
+            var getBookResponse = Get<GetBookDtoCommandResult>(bookId, Resources.GetBookById);
+
+            /* Check the status code is OK */
+            getBookResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            /* Check the book has not been updated and still has original values */
+            getBookResponse.Data.Output.Title.Should().Be(bookData.First().Title);
+            getBookResponse.Data.Output.Description.Should().Be(bookData.First().Description);
         }
     }
 }
